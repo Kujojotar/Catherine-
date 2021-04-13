@@ -5,11 +5,12 @@ import Core.servlet.Servlet;
 import Core.servlet.ServletConfig;
 import Core.servlet.ServletRequest;
 import Core.servlet.ServletResponse;
+import Exception.MyServletException;
 
 @WebServlet(urlPatterns = "/jiji")
 public class AnotherServlet implements Servlet {
     @Override
-    public void init() {
+    public void init(ServletConfig config) throws MyServletException {
 
     }
 

@@ -6,13 +6,14 @@ import Core.servlet.ServletConfig;
 import Core.servlet.ServletRequest;
 import Core.servlet.ServletResponse;
 import Lifecycle.MyLifecycle;
+import Exception.MyServletException;
 
 @WebServlet(urlPatterns = {"/haha","/"})
 public class StupidServlet implements Servlet, MyLifecycle {
     private String msg="hahhahahah";
 
     @Override
-    public void init() {
+    public void init(ServletConfig config)throws MyServletException {
 
     }
 

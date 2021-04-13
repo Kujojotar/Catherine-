@@ -5,13 +5,14 @@ import Core.servlet.Servlet;
 import Core.servlet.ServletConfig;
 import Core.servlet.ServletRequest;
 import Core.servlet.ServletResponse;
+import Exception.MyServletException;
 
 import java.io.PrintWriter;
 
 @WebServlet(urlPatterns = "/hello")
 public class HelloWorldServlet implements Servlet {
     @Override
-    public void init() {
+    public void init(ServletConfig config)throws MyServletException {
 
     }
 
