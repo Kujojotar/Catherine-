@@ -1,5 +1,7 @@
 package Core.servlet;
 
+import Core.session.Session;
+import Core.session.StandardSession;
 import Core.util.Cookie;
 
 import java.net.Socket;
@@ -13,6 +15,15 @@ public class MyRequest implements ServletRequest{
     private Socket socket;
     private RequestLine requestLine;
     private RequestHead requestHead;
+    private Session session;
+
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
+    }
 
     public Map<String, Object> getAttributes() {
         return attributes;
@@ -97,5 +108,9 @@ public class MyRequest implements ServletRequest{
     @Override
     public String getUri(){
         return requestLine.getUri();
+    }
+
+    public RequestHead getRequestHead() {
+        return requestHead;
     }
 }

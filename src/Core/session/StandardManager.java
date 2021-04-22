@@ -6,12 +6,9 @@ import Core.container.Container;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
-/**、
- * @author james
- * Session管理器的实现类
- * ManagerBase实现了对一个简单session map的增删改查
- */
+
 public class StandardManager extends ManagerBase implements Runnable{
     //关联的父容器
     private Container container;
@@ -36,27 +33,36 @@ public class StandardManager extends ManagerBase implements Runnable{
 
     @Override
     public Session createSession() {
-        return null;
+        StandardSession session=new StandardSession(this);
+        String sessionId= UUID.randomUUID().toString().replaceAll("-","");
+        session.setId(sessionId);
+        add(session);
+        return session;
     }
 
     /**
-     * 将session写入缓存之中
+     * 将session从缓存中读取
      * @throws ClassNotFoundException
      * @throws IOException
      */
     @Override
     public void load() throws ClassNotFoundException, IOException {
+        // TODO:装载持久化缓存中的session 2021/4/22
+        /*
         ObjectOutputStream oos=new ObjectOutputStream(new FileOutputStream("C:\\Users\\Jonny\\Desktop\\jessicat\\src\\mycat\\session\\session.ser"));
         oos.writeObject(sessions);
         oos.flush();
+         */
     }
 
     /**
-     * 将session从缓存中读取
+     * 将session装载到缓存中
      * @throws IOException
      */
     @Override
     public void unload() throws IOException {
+        // TODO:将session装入持久化的缓存中 2021/4/22
+        /*
         FileInputStream input=new FileInputStream("C:\\Users\\Jonny\\Desktop\\jessicat\\src\\mycat\\session\\session.ser");
         ObjectInputStream objectInputStream=new ObjectInputStream(input);
         try {
@@ -65,6 +71,7 @@ public class StandardManager extends ManagerBase implements Runnable{
             e.printStackTrace();
         }
         System.out.println(sessions);
+         */
     }
 
     public void run(){

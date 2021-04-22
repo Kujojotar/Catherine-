@@ -1,8 +1,6 @@
 package Core.servlet;
 
 import java.io.InputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -167,20 +165,5 @@ public class MyRequestLine {
                 ", queryString='" + queryString + '\'' +
                 ", isLegal=" + isLegal +
                 '}';
-    }
-}
-
-class t{
-    public static void main(String[] args) {
-        try{
-            ServerSocket serverSocket=new ServerSocket(8081);
-            Socket socket= serverSocket.accept();
-            MyRequestLine myRequest=new MyRequestLine(socket.getInputStream());
-            myRequest.init();
-            System.out.println();
-            System.out.println(myRequest);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
     }
 }

@@ -1,5 +1,6 @@
 package Core.servlet;
 
+import Core.session.Session;
 import Core.util.Cookie;
 
 import java.util.Map;
@@ -22,4 +23,8 @@ public interface ServletRequest {
     public void removeAttribute(String attribute);
 
     public String getUri();
+
+    public void setSession(Session session);
+
+    public Session getSession();
 }

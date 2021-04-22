@@ -1,5 +1,6 @@
 package Core.servlet;
 
+import Core.session.Session;
 import Core.util.Cookie;
 
 import java.util.Map;
@@ -54,5 +55,15 @@ public class MyRequestFacade implements ServletRequest {
     @Override
     public String getUri() {
         return myRequest.getUri();
+    }
+
+    @Override
+    public void setSession(Session session) {
+        myRequest.setSession(session);
+    }
+
+    @Override
+    public Session getSession() {
+        return myRequest.getSession();
     }
 }

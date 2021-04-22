@@ -5,9 +5,14 @@ import Annotation.WebServlet;
 import Constants.Constants;
 import Core.filter.Filter;
 import Core.loader.WebappLoader;
+import Core.servlet.MyRequest;
 import Core.servlet.Servlet;
 import Core.servlet.ServletRequest;
 import Core.servlet.ServletResponse;
+import Core.session.Session;
+import Core.session.StandardManager;
+import Core.session.StandardSession;
+import Core.util.Cookie;
 import Core.valve.Valve;
 import Core.valve.ValveContext;
 
@@ -21,6 +26,7 @@ public class MyContext implements Contained,Container {
     private Pipeline pipeline;
     private WebappLoader loader;
     private Map<String,String> urlServletMap;
+    private StandardManager manager;
 
     public Container getParent() {
         return parent;
@@ -41,6 +47,21 @@ public class MyContext implements Contained,Container {
     class MyContextBasicValve implements Valve{
         @Override
         public void invoke(ServletRequest request, ServletResponse response, ValveContext context) {
+            Cookie sessionCookie= request.getCookie("JSESSIONID");
+
+            if(sessionCookie==null){
+                Session session=manager.createSession();
+                response.getPrintWriter().println("Set-Cookie: JSESSIONID="+session.getId());
+                request.setSession(session);
+            }else{
+                String jsessionId=sessionCookie.getValue();
+                System.out.println(jsessionId);
+                Session session= manager.findSession(jsessionId);
+                if(session==null){
+                    System.out.println("这个session过期了");
+                }
+            }
+            response.getPrintWriter().println();
             String uri=request.getUri();
             String className=urlServletMap.get(uri);
             if(className==null){
@@ -65,6 +86,8 @@ public class MyContext implements Contained,Container {
         pipeline.setBasic(new MyContextBasicValve());
         loader=new WebappLoader(this);
         urlServletMap=new HashMap<>();
+        manager=new StandardManager();
+        manager.setContainer(this);
     }
 
     /**
