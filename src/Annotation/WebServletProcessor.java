@@ -12,6 +12,8 @@ import java.util.Set;
  * 对注解的处理使用了reflections框架
  * 专门用于扫描并处理注解的类
  * 感觉用起来比文件操作更优雅
+ * 依赖:guava-30.1.1-jre.jar,javassist-3.27.0-GA.jar,reflections-0.9.11.jar
+ * 然而想让容器纯粹一些，所以真正在容器中没有用👻
  */
 public class WebServletProcessor {
     private Reflections reflections=null;
@@ -46,12 +48,4 @@ public class WebServletProcessor {
     }
 
 
-}
-
-class t{
-    public static void main(String[] args) {
-        WebServletProcessor processor=new WebServletProcessor();
-        processor.initRecord();
-        System.out.println(processor.getUrlRecords());
-    }
 }

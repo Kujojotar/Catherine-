@@ -1,7 +1,6 @@
 package Annotation;
 
 import java.lang.annotation.*;
-import java.util.HashMap;
 
 @Documented
 @Target(ElementType.TYPE)

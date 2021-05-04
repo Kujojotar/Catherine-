@@ -1,10 +1,10 @@
 package source.servlet;
 
 import Annotation.WebServlet;
-import Core.servlet.Servlet;
-import Core.servlet.ServletConfig;
-import Core.servlet.ServletRequest;
-import Core.servlet.ServletResponse;
+import core.servlet.Servlet;
+import core.servlet.ServletConfig;
+import core.servlet.ServletRequest;
+import core.servlet.ServletResponse;
 import Exception.MyServletException;
 
 @WebServlet(urlPatterns = "/jiji")

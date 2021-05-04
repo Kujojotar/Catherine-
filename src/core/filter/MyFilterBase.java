@@ -1,26 +1,22 @@
-package source.filter;
+package core.filter;
 
-import Annotation.WebFilter;
-import core.filter.Filter;
-import core.filter.FilterChain;
-import core.filter.FilterConfig;
 import core.servlet.ServletRequest;
 import core.servlet.ServletResponse;
 import Exception.MyServletException;
 
 import java.io.IOException;
 
-@WebFilter(urls = "/hello")
-public class MyFilter implements Filter {
+public class MyFilterBase implements Filter {
+    protected FilterConfig filterConfig;
+
     @Override
     public void init(FilterConfig filterConfig) throws MyServletException {
-
+        this.filterConfig=filterConfig;
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, MyServletException {
-         response.getPrintWriter().println("Filter do !    ");
-         chain.doFilter(request,response);
+
     }
 
     @Override
