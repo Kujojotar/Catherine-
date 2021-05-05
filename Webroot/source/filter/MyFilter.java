@@ -1,12 +1,12 @@
 package source.filter;
 
-import Annotation.WebFilter;
+import annotation.WebFilter;
 import core.filter.Filter;
 import core.filter.FilterChain;
 import core.filter.FilterConfig;
 import core.servlet.ServletRequest;
 import core.servlet.ServletResponse;
-import Exception.MyServletException;
+import exception.MyServletException;
 
 import java.io.IOException;
 
@@ -19,7 +19,7 @@ public class MyFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, MyServletException {
-         response.getPrintWriter().println("Filter do !    ");
+         response.println("Filter do !    ");
          chain.doFilter(request,response);
     }
 

@@ -1,12 +1,12 @@
 package source.servlet;
 
-import Annotation.WebServlet;
+import annotation.WebServlet;
 import core.servlet.Servlet;
 import core.servlet.ServletConfig;
 import core.servlet.ServletRequest;
 import core.servlet.ServletResponse;
-import Lifecycle.MyLifecycle;
-import Exception.MyServletException;
+import lifecycle.MyLifecycle;
+import exception.MyServletException;
 
 @WebServlet(urlPatterns = {"/haha","/"})
 public class StupidServlet implements Servlet, MyLifecycle {

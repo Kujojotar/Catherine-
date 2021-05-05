@@ -1,5 +1,5 @@
 package core.servlet;
-import Exception.MyServletException;
+import exception.MyServletException;
 public interface Servlet {
     void init(ServletConfig config)throws MyServletException;
     void service(ServletRequest request,ServletResponse response);

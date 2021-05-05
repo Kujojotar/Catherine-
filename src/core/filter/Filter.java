@@ -2,7 +2,7 @@ package core.filter;
 
 import core.servlet.ServletRequest;
 import core.servlet.ServletResponse;
-import Exception.MyServletException;
+import exception.MyServletException;
 
 import java.io.IOException;
 

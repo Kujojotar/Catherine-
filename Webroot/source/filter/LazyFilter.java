@@ -1,12 +1,12 @@
 package source.filter;
 
-import Annotation.WebFilter;
+import annotation.WebFilter;
 import core.filter.Filter;
 import core.filter.FilterChain;
 import core.filter.FilterConfig;
 import core.servlet.ServletRequest;
 import core.servlet.ServletResponse;
-import Exception.MyServletException;
+import exception.MyServletException;
 
 import java.io.IOException;
 

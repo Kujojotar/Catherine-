@@ -4,12 +4,15 @@ package core.container;
 import core.filter.Filter;
 import core.filter.MyFilterChain;
 import core.loader.WebappLoader;
+import core.servlet.MyResponse;
 import core.servlet.Servlet;
 import core.servlet.ServletRequest;
 import core.servlet.ServletResponse;
 import core.valve.Valve;
 import core.valve.ValveContext;
-import Lifecycle.MyLifecycle;
+import lifecycle.MyLifecycle;
+
+import java.io.PrintWriter;
 
 /**
  * @author james
@@ -23,7 +26,7 @@ public class MyWrapper implements Container,Contained, MyLifecycle {
     //wrapper管理的servlet的实例
     private Servlet instance;
     //wrapper包含的类加载器，负责载入wrapper所对应的servlet类
-    private WebappLoader loader;
+    //private WebappLoader loader;
     //要加载的servlet的；类名
     private String className;
     //wrapper容器的管道
@@ -33,7 +36,7 @@ public class MyWrapper implements Container,Contained, MyLifecycle {
 
     public MyWrapper(String className){
         this.className=className;
-        loader=new WebappLoader(this);
+        //loader=new WebappLoader(this);
         pipeline=new SimplePipeline();
         pipeline.setBasic(new MyWrapperBasicValve());
         chain=new MyFilterChain();
@@ -45,7 +48,12 @@ public class MyWrapper implements Container,Contained, MyLifecycle {
         public void invoke(ServletRequest request, ServletResponse response, ValveContext context) {
             chain.doFilter(request, response);
             instance.service(request,response);
-            response.getPrintWriter().flush();
+            ((MyResponse)response).writeToSocket();
+            try {
+                response.getOutputStream().close();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -80,6 +88,7 @@ public class MyWrapper implements Container,Contained, MyLifecycle {
 
     @Override
     public void start() {
+        /*
         Class clazz=null;
         try{
             clazz=loader.loadClass(className);
@@ -87,11 +96,13 @@ public class MyWrapper implements Container,Contained, MyLifecycle {
             System.out.println("提供了一个无效的Servlet类名");
         }
         try {
-            instance = (Servlet) clazz.newInstance();
+            instance = (Servlet) clazz.getDeclaredConstructor().newInstance();
         }catch (Exception e){
             System.out.println("初始化的过程似乎出了些问题");
             instance=null;
         }
+
+         */
     }
 
     @Override
@@ -99,8 +110,8 @@ public class MyWrapper implements Container,Contained, MyLifecycle {
        parent=null;
        instance=null;
        className=null;
-       loader.shutdown();
-       loader=null;
+       //loader.shutdown();
+       //loader=null;
     }
 
     public void addFilter(Filter filter){

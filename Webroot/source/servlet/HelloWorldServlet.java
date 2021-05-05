@@ -1,11 +1,11 @@
 package source.servlet;
 
-import Annotation.WebServlet;
+import annotation.WebServlet;
 import core.servlet.Servlet;
 import core.servlet.ServletConfig;
 import core.servlet.ServletRequest;
 import core.servlet.ServletResponse;
-import Exception.MyServletException;
+import exception.MyServletException;
 
 import java.io.PrintWriter;
 
@@ -18,8 +18,7 @@ public class HelloWorldServlet implements Servlet {
 
     @Override
     public void service(ServletRequest request, ServletResponse response) {
-        PrintWriter writer= response.getPrintWriter();
-        writer.println("Hello world!");
+        response.println("Hello world!");
     }
 
     @Override

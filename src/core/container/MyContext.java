@@ -1,10 +1,11 @@
 package core.container;
 
-import Annotation.WebFilter;
-import Annotation.WebServlet;
-import Constants.Constants;
+import annotation.WebFilter;
+import annotation.WebServlet;
+import constants.Constants;
 import core.filter.Filter;
 import core.loader.WebappLoader;
+import core.processor.StaticResourceHandler;
 import core.servlet.Servlet;
 import core.servlet.ServletRequest;
 import core.servlet.ServletResponse;
@@ -15,6 +16,7 @@ import core.valve.Valve;
 import core.valve.ValveContext;
 
 import java.io.File;
+import java.io.PrintWriter;
 import java.lang.annotation.Annotation;
 import java.util.*;
 
@@ -45,11 +47,29 @@ public class MyContext implements Contained,Container {
     class MyContextBasicValve implements Valve{
         @Override
         public void invoke(ServletRequest request, ServletResponse response, ValveContext context) {
-            Cookie sessionCookie= request.getCookie("JSESSIONID");
+            String uri=request.getUri();
+            String className=urlServletMap.get(uri);
+            if(className==null){
+                StaticResourceHandler handler=new StaticResourceHandler(request,response);
+                handler.parse();
+                return ;
+            }
 
+            //PrintWriter out=response.getPrintWriter();
+            //out.println("HTTP/1.1 200 OK");
+            /*一次有趣的小尝试，手动~狗头
+            if(!request.getUri().equals("/hello")) {
+                out.println("HTTP/1.1 302 Moved Temporarily");
+                out.println("Location: /hello");
+            }else{
+            }
+             */
+            //out.println("HTTP/1.1 200 OK");
+            //out.println("Content-Type: text/html; charset: UTF-8");
+            Cookie sessionCookie= request.getCookie("JSESSIONID");
             if(sessionCookie==null){
                 Session session=manager.createSession();
-                response.getPrintWriter().println("Set-Cookie: JSESSIONID="+session.getId());
+                response.setHeader("Set-Cookie:","JSESSIONID="+session.getId());
                 request.setSession(session);
             }else{
                 String jsessionId=sessionCookie.getValue();
@@ -59,12 +79,8 @@ public class MyContext implements Contained,Container {
                     System.out.println("这个session过期了");
                 }
             }
-            response.getPrintWriter().println();
-            String uri=request.getUri();
-            String className=urlServletMap.get(uri);
-            if(className==null){
-                return ;
-            }
+            //out.println();
+
             MyWrapper wrapper=wrappers.get(className);
             wrapper.invoke(request,response);
         }
@@ -120,6 +136,7 @@ public class MyContext implements Contained,Container {
                         }
                     }
                     MyWrapper wrapper=new MyWrapper(name);
+                    wrapper.setInstance((Servlet)clazz.getDeclaredConstructor().newInstance());
                     wrappers.put(name, wrapper);
                 }
             }
@@ -153,7 +170,7 @@ public class MyContext implements Contained,Container {
                         } else {
                             MyWrapper wrapper = wrappers.get(className);
                             try {
-                                filter = (Filter) clazz.newInstance();
+                                filter = (Filter) clazz.getDeclaredConstructor().newInstance();
                                 wrapper.addFilter(filter);
                             } catch (Exception e) {
                             }
@@ -198,7 +215,7 @@ public class MyContext implements Contained,Container {
         return false;
     }
 
-    public void Notified(String fileName,char type) {
+    public void notified(String fileName,char type) {
         switch (type){
             case'a':
                 MyWrapper wrapper=new MyWrapper(fileName);

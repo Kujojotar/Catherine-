@@ -1,6 +1,6 @@
 package core.loader;
 
-import Constants.Constants;
+import constants.Constants;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,10 +20,10 @@ public class WebappClassLoader extends URLClassLoader {
     private String dir_url=Constants.WEB_ROOT+File.separator+"source"+File.separator+"servlet";
 
     //下面是此加载器不可接触的包，如果请求的servlet全限定路径包含这些包名将被交给父加载器处理
-    private static final String[] triggers={
+    private static final String[] TRIGGERS={
             "javax.servlet.Servlet"
     };
-    private static final String[] packageTriggers={
+    private static final String[] PACKAGETRIGGERS={
             "javax",
             "org.xml.sax",
             "prg.w3c.dom",

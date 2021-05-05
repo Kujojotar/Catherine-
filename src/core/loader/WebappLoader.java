@@ -79,7 +79,7 @@ public class WebappLoader implements Loader,Runnable {
         Class clazz=Class.forName(packageUri+loaderClass);
         WebappClassLoader classLoader=null;
         if(clazz.getClassLoader().getParent()==null){
-            classLoader=(WebappClassLoader)clazz.newInstance();
+            classLoader=(WebappClassLoader)clazz.getDeclaredConstructor().newInstance();
         }else{
             Class[] argTypes={ClassLoader.class};
             Object[] args={clazz.getClassLoader().getParent()};
@@ -111,6 +111,7 @@ public class WebappLoader implements Loader,Runnable {
      * 如果产生变化，将得到受到更改的文件以及更改类型
      * 将变化信息交给Context容器进行进一步处理
      */
+    @Override
     public synchronized void run(){
         String lastModifiedFileName=null;
         while(!shutdown){
@@ -146,7 +147,7 @@ public class WebappLoader implements Loader,Runnable {
      */
     private void notifyContainer(String modifiedFileName){
         if(container instanceof MyContext){
-            ((MyContext)container).Notified(modifiedFileName,modifyType);
+            ((MyContext)container).notified(modifiedFileName,modifyType);
         }
     }
 

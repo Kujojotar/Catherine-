@@ -1,11 +1,11 @@
 package source.servlet;
 
-import Annotation.WebServlet;
+import annotation.WebServlet;
 import core.servlet.Servlet;
 import core.servlet.ServletConfig;
 import core.servlet.ServletRequest;
 import core.servlet.ServletResponse;
-import Exception.MyServletException;
+import exception.MyServletException;
 
 @WebServlet(urlPatterns = "/jiji")
 public class AnotherServlet implements Servlet {
@@ -17,6 +17,7 @@ public class AnotherServlet implements Servlet {
     @Override
     public void service(ServletRequest request, ServletResponse response) {
         System.out.println("这是一个干扰的Servlet");
+        response.sendRedirect("/hello");
     }
 
     @Override

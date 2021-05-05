@@ -11,7 +11,7 @@ public interface Contained {
     public Container getContainer();
 
     /**
-     * 老子想把这个插件卸了，nnd
+     * 老子想把这个插件卸了
      * @param container
      */
     public void setContainer(Container container);
